@@ -25,6 +25,8 @@ namespace MyCourse
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseStaticFiles();
+
             app.Run(async (context) =>
             {
                 string nome = context.Request.Query["nome"];
