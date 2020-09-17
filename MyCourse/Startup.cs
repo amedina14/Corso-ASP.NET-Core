@@ -29,8 +29,10 @@ namespace MyCourse
 
             app.UseStaticFiles();
 
+            /*
+                Middleware di routing
+            */
             // app.UseMvcWithDefaultRoute();
-
             app.UseMvc(routeBuilder => 
             {
                 // /courses/detail/5
