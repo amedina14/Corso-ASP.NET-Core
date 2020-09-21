@@ -1,9 +1,14 @@
-namespace MyCoursee.Controllers
+using System;
+using System.Collections.Generic;
+using MyCoursee.Models.ViewModels;
+
+namespace MyCoursee.Models.Services.Application
 {
-    internal class CourseService
+    public class CourseService
     {
-        public CourseService()
+        public List<CourseViewModel> GetServices()
         {
+            throw new NotImplementedException();
         }
     }
 }
