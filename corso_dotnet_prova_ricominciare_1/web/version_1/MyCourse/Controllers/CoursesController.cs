@@ -10,7 +10,7 @@ namespace MyCourse.Controllers
         }
 
         public IActionResult Detail(string id){
-            return Content($"Detail corso {id}");
+            return View();
         }
 
     }
