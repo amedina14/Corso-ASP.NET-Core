@@ -28,9 +28,9 @@ namespace MyCourse
 
             app.UseStaticFiles();
 
-            app.Run(async (context) =>
+            app.UseMvc(routeBuilder => 
             {
-                await context.Response.WriteAsync("Hello World!");
+                routeBuilder.MapRoute("default","{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
