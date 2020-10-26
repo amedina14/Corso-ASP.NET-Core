@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -19,18 +20,27 @@ namespace MyCourse
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IApplicationLifetime lifetime)
         {
             if (env.IsEnvironment("Development"))
             {
                 app.UseDeveloperExceptionPage();
+
+                // Browser sync con C#
+                lifetime.ApplicationStarted.Register(() =>
+                {
+                    // unisce il path dell'app + il file.
+                    string filePath = Path.Combine(env.ContentRootPath, "bin/reload.txt");
+                    // inserisce la data aggiornata nel file.
+                    File.WriteAllText(filePath, DateTime.Now.ToString());
+                });
             }
 
             app.UseStaticFiles();
 
-            app.UseMvc(routeBuilder => 
+            app.UseMvc(routeBuilder =>
             {
-                routeBuilder.MapRoute("default","{controller=Home}/{action=Index}/{id?}");
+                routeBuilder.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
