@@ -1,2 +1,59 @@
-<p>Dettaglio</p>
-<i class="fas fa-star"></i>
+
+<section class="course-info">
+    <div class="row">
+        <div class="col-md-9">
+            <h1>Titolo del corso</h1>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <a href="#" class="btn btn-warning btn-lg btn-block subscribe-course">Iscriviti</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus error corrupti aut inventore ipsam temporibus repellendus cupiditate incidunt, laborum odit ratione doloribus voluptates? Atque tempore delectus quis nesciunt placeat velit?</p>
+            <p>Quae, esse accusantium repellat impedit repudiandae doloribus quod consequatur harum deleniti, libero ratione, dicta pariatur dolorem praesentium vero illo. Impedit accusantium minima excepturi soluta exercitationem, fugit odit quo quasi itaque!</p>
+            <p>Iure fugiat delectus quas fuga ut iste dicta, soluta in distinctio quaerat odit nemo nesciunt laudantium nam. Rerum fugit cumque labore dolores animi aperiam doloremque? Blanditiis, facilis odio? Accusantium, voluptas.</p>
+            <p>Veritatis, vel facilis? Similique debitis aut quo itaque accusamus hic reiciendis possimus, voluptatem eveniet incidunt sint impedit id commodi odio perferendis minus autem suscipit necessitatibus quas quae optio beatae deleniti.</p>
+            <p>Amet natus harum nam consequuntur doloremque incidunt eveniet atque facilis nihil neque facere necessitatibus fuga error quam non, odio omnis tenetur enim et corrupti recusandae? Perspiciatis labore tempora atque saepe.</p>
+        </div>
+        <div class="col-md-3">
+            <aside>
+                <author>di Nome Cognome</author>
+                <div class="rating" title="">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="price">
+                    EUR 10.99 <br><s>EUR 12.99</s>
+                </div>
+                <img src="~/img/bug.png" class="img-fluid course-image" alt="" asp-append-version="false">
+            </aside>
+        </div>
+    </div>
+</section>
+<section class="course-lessons">
+    <h2>Lezioni</h2>
+    @for(int i=0; i<10; i++){
+        <hr>
+        <div class="row">
+            <div class="col-md-9 d-flex align-items-center">
+                <a href="#">Title lesson</a>
+            </div>
+            <div class="col-md-3 d-flex align-items-center lesson-duration">
+                <i class="f-far fa-clock"></i><time>1m 30s</time>
+            </div>
+        </div>
+    }
+    <hr>
+    <div class="row course-duration">
+		<div class="col-md-9 d-flex align-items-center">
+            Totale
+        </div>
+        <div class="col-md-3 d-flex align-items-center">
+            <i class="far fa-clock"></i><time>15m</time>
+        </div>
+    </div>
+</section>
