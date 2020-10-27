@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using MyCourse.Models.Services.Application;
+using MyCourse.ViewModels;
 
 namespace MyCourse.Controllers
 {
@@ -6,7 +9,9 @@ namespace MyCourse.Controllers
     {
 
         public IActionResult index(){
-            return View();
+            CourseService corsoServizio = new CourseService();
+            List<CourseViewModel> corsi = corsoServizio.getCourse();
+            return View(corsi);
         }
 
         public IActionResult Detail(string id){
