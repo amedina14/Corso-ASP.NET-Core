@@ -19,9 +19,9 @@ namespace MyCourse.Models.Services.Application
                 {
                     Id = i,
                     Title = $"Corso {i}",
-                    CurrentPrice = new Money(Currency.EUR, price),
-                    FullPrice = new Money(Currency.EUR, rand.NextDouble() > 0.5 ? price : price - 1),
-                    Rating = rand.NextDouble() * 5.0,
+                    FullPrice = new Money(Currency.EUR, price),
+                    CurrentPrice = new Money(Currency.EUR, rand.NextDouble() > 0.5 ? price : price - 1),
+                    Rating = (double)Decimal.Round((decimal)(rand.NextDouble() * 5.0), 1),
                     Author = "Name Surname",
                     ImagePath = "~/img/bug.png"
                 };
