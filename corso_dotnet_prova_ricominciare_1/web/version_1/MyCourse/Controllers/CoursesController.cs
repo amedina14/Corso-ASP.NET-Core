@@ -10,12 +10,15 @@ namespace MyCourse.Controllers
 
         public IActionResult index(){
             CourseService corsoServizio = new CourseService();
-            List<CourseViewModel> corsi = corsoServizio.getCourse();
+            List<CourseViewModel> corsi = corsoServizio.getCourses();
             return View(corsi);
         }
 
-        public IActionResult Detail(string id){
-            return View();
+        public IActionResult Detail(int id){
+            var corsoServizio = new CourseService();
+            CourseDetailViewModel detailViewModel = corsoServizio.GetCourse(id);
+            return View(detailViewModel);
+            // Se non passo l'oggetto alla view, lancia NullReferenceException
         }
 
     }
