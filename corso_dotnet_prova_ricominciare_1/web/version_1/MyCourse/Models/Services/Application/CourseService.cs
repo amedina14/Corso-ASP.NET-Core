@@ -6,9 +6,10 @@ using MyCourse.Models.ViewModels;
 
 namespace MyCourse.Models.Services.Application
 {
-    public class CourseService
+    // Si implementa l'interfaccia ICourseService
+    public class CourseService : ICourseService
     {
-        public List<CourseViewModel> getCourses()
+        public List<CourseViewModel> GetCourses()
         {
             var courseList = new List<CourseViewModel>();
             var rand = new Random();
