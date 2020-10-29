@@ -8,8 +8,16 @@ namespace MyCourse.Controllers
     public class CoursesController : Controller
     {
 
+        // Debolmente accopiato: DI
+        private readonly CourseService corsoServizio;
+
+        public CoursesController(CourseService corsoServizio){
+            this.corsoServizio = corsoServizio;
+        }
+
         public IActionResult index(){
-            CourseService corsoServizio = new CourseService();
+            // Fortemente accopiato
+            //CourseService corsoServizio = new CourseService();
             List<CourseViewModel> corsi = corsoServizio.getCourses();
             //ViewData["title"] = "Catalogo dei corsi";
             ViewBag.title = "Catalogo dei corsi";
@@ -20,8 +28,8 @@ namespace MyCourse.Controllers
             var corsoServizio = new CourseService();
             CourseDetailViewModel detailViewModel = corsoServizio.GetCourse(id);
             ViewBag.title = detailViewModel.Title;
-            return View(detailViewModel);
             // Se non passo l'oggetto alla view, lancia NullReferenceException
+            return View(detailViewModel);
         }
 
     }
