@@ -22,7 +22,7 @@ namespace MyCourse.Models.Services.Application
                     Title = $"Corso {i}",
                     FullPrice = new Money(Currency.EUR, price),
                     CurrentPrice = new Money(Currency.EUR, rand.NextDouble() > 0.5 ? price : price - 110),
-                    Rating = (double)Decimal.Round((decimal)(rand.NextDouble() * 5.0), 1),
+                    Rating = rand.NextDouble() * 5.0,//(double)Decimal.Round((decimal)(rand.NextDouble() * 5.0), 1),
                     Author = "Name Surname",
                     ImagePath = "~/img/bug.png"
                 };
