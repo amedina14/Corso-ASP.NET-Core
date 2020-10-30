@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using MyCourse.Models.Services.Application;
+using MyCourse.Models.Services.Infrastructure;
 
 namespace MyCourse
 {
@@ -20,7 +21,8 @@ namespace MyCourse
             services.AddMvc(); // .SetCompatibilityVersion(CompatibilityVersion.Version_2_2); using Microsoft.AspNetCore.Mvc; //
 
             // Quando si registra un servizio si indicano interfaccia e implementazione concreta (servizio).
-            services.AddTransient<ICourseService, CourseService>();
+            services.AddTransient<ICourseService, AdoNetCourseService>(); // Sostituiamo CourseService
+            services.AddTransient<IDatabaseAccessor, SqliteDatabaseAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
