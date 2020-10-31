@@ -19,9 +19,23 @@ namespace MyCourse.Models.Services.Application{
 
         public List<CourseViewModel> GetCourses()
         {
-            string query = "SELECT * FROM COURSES;";
-            DataSet dataset = db.Query(query);
-            throw new NotImplementedException();
+            // Otteniamo la tabella risultante
+            string query = "SELECT Id, Title, ImagePath, Author, Rating, FullPrice_Amount, CurrentPrice_Amount, FullPrice_Currency, CurrentPrice_Currency FROM COURSES;";
+            DataSet dataSet = db.Query(query);
+
+            // Ottiene il registro del corso [0]
+            var dataTable = dataSet.Tables[0];
+            
+            // Lista dei corsi dove aggiungerli
+            var courseList = new List<CourseViewModel>();
+            // Percorriamo tutte le rows del corso
+            foreach(DataRow courseRow in dataTable.Rows){
+                // Logica di mapping inserita in FromDataRow(courseRow)
+                CourseViewModel course = CourseViewModel.FromDataRow(courseRow);
+                courseList.Add(course);
+            }
+
+            return courseList;
         }
 
         public CourseDetailViewModel GetCourse(int id)
