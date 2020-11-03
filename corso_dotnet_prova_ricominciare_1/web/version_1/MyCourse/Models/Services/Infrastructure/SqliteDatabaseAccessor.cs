@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using MyCourse.Models.Services.Application;
 
@@ -8,7 +9,7 @@ namespace MyCourse.Models.Services.Infrastructure{
 
     public class SqliteDatabaseAccessor : IDatabaseAccessor{
 
-        public DataSet Query(FormattableString formattableQuery){
+        public async Task<DataSet> QueryAsync(FormattableString formattableQuery){
 
             // prevenire Sql Injection
             /*
@@ -36,14 +37,14 @@ namespace MyCourse.Models.Services.Infrastructure{
             */
             using(var conn = new SqliteConnection("Data Source=Data/MyCourse.db"))
             {
-                conn.Open();
+                await conn.OpenAsync();
                 using(var cmd = new SqliteCommand(query, conn))
                 {
                     // Aggiunge tutti i SqliteParameters al SqliteCommand.
                     cmd.Parameters.AddRange(sqliteParameters);
 
                     // A questo punto abbiamo trovato i risultati. Ora li leggiamo uno ad uno.
-                    using(SqliteDataReader reader = cmd.ExecuteReader())
+                    using(SqliteDataReader reader = await cmd.ExecuteReaderAsync())
                     {
                         // E li passiamo alle classi disconnesse: DataSet, DataTable.
                         // Crea DataSet
