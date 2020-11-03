@@ -5,6 +5,7 @@ using MyCourse.Models.Enums;
 using MyCourse.Models.ValueTypes;
 using MyCourse.Models.ViewModels;
 using MyCourse.Models.Services.Infrastructure;
+using System.Threading.Tasks;
 
 namespace MyCourse.Models.Services.Application{
     public class AdoNetCourseService : ICourseService{
@@ -17,11 +18,11 @@ namespace MyCourse.Models.Services.Application{
             this.db = db;
         }
 
-        public List<CourseViewModel> GetCourses()
+        public async Task<List<CourseViewModel>> GetCoursesAsync()
         {
             // Otteniamo la tabella risultante, dal interfaccia IDatabaseAccessor che implementa il metodo Query.
             FormattableString query = $"SELECT Id, Title, ImagePath, Author, Rating, FullPrice_Amount, CurrentPrice_Amount, FullPrice_Currency, CurrentPrice_Currency FROM COURSES;";
-            DataSet dataSet = db.Query(query);
+            DataSet dataSet = await db.QueryAsync(query);
 
             // Ottiene il registro del corso [0]
             var dataTable = dataSet.Tables[0];
@@ -38,13 +39,13 @@ namespace MyCourse.Models.Services.Application{
             return courseList;
         }
 
-        public CourseDetailViewModel GetCourse(int id)
+        public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             /* La query fornisce 2 tabelle: Corsi e lezioni. */
             FormattableString query = $@"SELECT Id, Title, Description, ImagePath, Author, Rating, FullPrice_Amount, FullPrice_Currency, CurrentPrice_Amount, CurrentPrice_Currency FROM Courses WHERE Id={id}
             ; SELECT Id, Title, Description, Duration FROM Lessons WHERE CourseId={id}";
 
-            DataSet dataSet = db.Query(query);
+            DataSet dataSet = await db.QueryAsync(query);
 
             // Course
             var courseTable = dataSet.Tables[0];
