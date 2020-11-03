@@ -19,8 +19,8 @@ namespace MyCourse.Models.Services.Application{
 
         public List<CourseViewModel> GetCourses()
         {
-            // Otteniamo la tabella risultante
-            string query = "SELECT Id, Title, ImagePath, Author, Rating, FullPrice_Amount, CurrentPrice_Amount, FullPrice_Currency, CurrentPrice_Currency FROM COURSES;";
+            // Otteniamo la tabella risultante, dal interfaccia IDatabaseAccessor che implementa il metodo Query.
+            FormattableString query = $"SELECT Id, Title, ImagePath, Author, Rating, FullPrice_Amount, CurrentPrice_Amount, FullPrice_Currency, CurrentPrice_Currency FROM COURSES;";
             DataSet dataSet = db.Query(query);
 
             // Ottiene il registro del corso [0]
@@ -40,7 +40,31 @@ namespace MyCourse.Models.Services.Application{
 
         public CourseDetailViewModel GetCourse(int id)
         {
-            throw new NotImplementedException();
+            /* La query fornisce 2 tabelle: Corsi e lezioni. */
+            FormattableString query = $@"SELECT Id, Title, Description, ImagePath, Author, Rating, FullPrice_Amount, FullPrice_Currency, CurrentPrice_Amount, CurrentPrice_Currency FROM Courses WHERE Id={id}
+            ; SELECT Id, Title, Description, Duration FROM Lessons WHERE CourseId={id}";
+
+            DataSet dataSet = db.Query(query);
+
+            // Course
+            var courseTable = dataSet.Tables[0];
+            if(courseTable.Rows.Count != 1){
+                throw new InvalidOperationException($"Did not return exactly 1 row for Course {id}");
+            }
+            
+            // Prende la riga del corso
+            var courseRow = courseTable.Rows[0];
+            // crea l'oggetto principale della pagina: Dettaglio corso.
+            var courseDetailViewModel = CourseDetailViewModel.FromDataRow(courseRow); // Prende dati del corso dal ViewModel
+
+            // Course Lessons
+            var lessonsDataTable = dataSet.Tables[1];
+            foreach(DataRow lessonRow in lessonsDataTable.Rows){
+                CourseLessonViewModel lessonViewModel = CourseLessonViewModel.FromDataRow(lessonRow);
+                courseDetailViewModel.Lezioni.Add(lessonViewModel);
+            }
+
+            return courseDetailViewModel;
         }
 
     }
