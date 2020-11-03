@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MyCourse.Models.ViewModels;
 
 namespace MyCourse.Models.Services.Application{
@@ -11,8 +12,8 @@ namespace MyCourse.Models.Services.Application{
 
         // Firma: tipo del metodo, nome del metodo, ed eventualmente i parametri.
         // Modificatore public implicito se non scritto. (Convenzione)
-        List<CourseViewModel> GetCourses();
+        Task<List<CourseViewModel>> GetCoursesAsync();
 
-        CourseDetailViewModel GetCourse(int id);
+        Task<CourseDetailViewModel> GetCourseAsync(int id);
     }
 }
