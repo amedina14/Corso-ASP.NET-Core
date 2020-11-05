@@ -68,5 +68,8 @@ int redAppleCount = meleRosse.Count();
 Console.WriteLine("Numero di mele rosse: "+redAppleCount);
 
 //ESERCIZIO #4: Qual è il peso totale delle mele verdi?
-//int totalWeight = apples...;
-
+IEnumerable<int> pesoMeleVerdi = apples
+                        .Where(apple => apple.color == "Green")
+                        .Select(apple => apple.weigth);
+int totalWeight = pesoMeleVerdi.Sum();
+Console.WriteLine("Peso mele verdi: "+totalWeight);
