@@ -61,7 +61,11 @@ string color = Convert.ToString(appleColor);
 Console.WriteLine("La mela di 190g è di colore: "+color);
 
 //ESERCIZIO #3: Quante sono le mele rosse?
-
+IEnumerable<int> meleRosse = apples
+                        .Where(apple => apple.color == "Red")
+                        .Select(apple => apple.weigth);
+int redAppleCount = meleRosse.Count();
+Console.WriteLine("Numero di mele rosse: "+redAppleCount);
 
 //ESERCIZIO #4: Qual è il peso totale delle mele verdi?
 //int totalWeight = apples...;
