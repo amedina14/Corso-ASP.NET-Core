@@ -6,14 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\"/>
-    <Compile Remove="Models/Services/Application/CourseService.cs"/>
+    <Folder Include="wwwroot\" />
+    <Compile Remove="Models/Services/Application/CourseService.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Data.SQLite" Version="5.0.0-rc.2.20475.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.4" />
   </ItemGroup>
 
 </Project>
