@@ -25,7 +25,7 @@ IEnumerable<int> weigthOfRedApples = apples
 
 //ESEMPIO #2: Calcolo la media dei pesi ottenuti
 double average = weigthOfRedApples.Average();
-Console.WriteLine(average);
+Console.WriteLine("Peso medio delle mele: "+average);
 
 /*
 List<Apple> rosse = new List<Apple>();
@@ -38,8 +38,20 @@ foreach (Apple apple in apples)
 }
 */
 
+/*
+Average
+Sum
+Min
+Max
+Count
+Any
+All
+*/
+
 //ESERCIZIO #1: Qual è il peso minimo delle 4 mele?
-//int minimumWeight = apples...;
+IEnumerable<int> pesoMele = apples.Select(apple => apple.weigth);
+int minimumWeight = pesoMele.Min();
+Console.WriteLine("Peso minimo delle mele: "+minimumWeight);
 
 //ESERCIZIO #2: Di che colore è la mela che pesa 190 grammi?
 //string color = apples...;
