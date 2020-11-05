@@ -79,5 +79,20 @@ Console.WriteLine(maggiore);
 
 // ESERCIZIO #3: Una lambda che prende due parametri DateTime e non restituisce nulla, ma stampa la minore delle due date in console con un Console.WriteLine
 // Action<...> printLowerDate = ...;
-
+Action<DateTime, DateTime> dataMin =
+(DateTime1, DateTime2) => {
+    var min = new DateTime();
+    if(DateTime1 < DateTime2){
+        min = DateTime1;
+        Console.WriteLine(min);
+    } else {
+        min = DateTime2;
+        Console.WriteLine(min);
+    }
+};
 // Qui invoca la lambda
+DateTime dateTime1 = new DateTime(2001,12,25);
+DateTime dateTime2 = new DateTime(2002,12,25);
+
+dataMin(dateTime1,dateTime2);
+//Console.WriteLine();
