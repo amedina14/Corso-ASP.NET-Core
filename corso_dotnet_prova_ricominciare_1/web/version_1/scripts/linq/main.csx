@@ -53,11 +53,15 @@ IEnumerable<int> pesoMele = apples.Select(apple => apple.weigth);
 int minimumWeight = pesoMele.Min();
 Console.WriteLine("Peso minimo delle mele: "+minimumWeight);
 
-//ESERCIZIO #2: Di che colore è la mela che pesa 190 grammi?
-//string color = apples...;
+//ESERCIZIO #2: Di che colore è la mela che pesa 190 grammi? ESERCIZIO #2: colore della mela di 190 grammi?
+IEnumerable<string> appleColor = apples
+                        .Where(apple => apple.weigth == 190)
+                        .Select(apple => apple.color);
+string color = Convert.ToString(appleColor);
+Console.WriteLine("La mela di 190g è di colore: "+color);
 
 //ESERCIZIO #3: Quante sono le mele rosse?
-//int redAppleCount = apples...;
+
 
 //ESERCIZIO #4: Qual è il peso totale delle mele verdi?
 //int totalWeight = apples...;
