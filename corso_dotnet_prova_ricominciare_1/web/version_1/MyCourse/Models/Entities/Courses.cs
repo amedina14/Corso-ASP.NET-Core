@@ -21,7 +21,7 @@ namespace MyCourse.Models.Entities
         }
 
         // Private per evitare di cambiare il titolo dall'esterno.
-        public long Id { get; private set; }
+        public int Id { get; private set; }
         public string Title { get; private set; }
         public string Description { get; private set; }
         public string ImagePath { get; private set; }
