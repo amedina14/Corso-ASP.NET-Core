@@ -77,10 +77,14 @@ namespace MyCourse.Models.Entities
                 */
                 #endregion
 
+                // Dal punto di vista dell'entita dipendente:
+
                 // Indica a che tabella è collegata l'entita (mapping)
-                entity.ToTable("Courses"); //Superfluo se la tabella si chiama come la proprietà che espone il DbSet.
+                //Superfluo se la tabella si chiama come la proprietà che espone il DbSet.
+                entity.ToTable("Courses");
                 // Rappresentare la PK
-                entity.HasKey(course => course.Id); //Superfluo se la proprieta si chiama Id, come il campo, o CoursesId. (nome della classe entita + suffisso)
+                //Superfluo se la proprieta si chiama Id, come il campo, o CoursesId. (nome della classe entita + suffisso)
+                entity.HasKey(course => course.Id);
                 // PK composte.
                 //entity.HasKey(course => new { course.Id, course.Author });
 
@@ -98,13 +102,20 @@ namespace MyCourse.Models.Entities
                 });
 
                 // Mapping per le relazioni
-                
-
+                entity.HasMany(course => course.Lessons)
+                      .WithOne(lesson => lesson.Course)
+                      .HasForeignKey(lesson => lesson.CourseId); //Superflua se la proprieta si chiama CourseId (nome dell'entita pricipale con suffisso)
 
             });
 
             modelBuilder.Entity<Lesson>(entity =>
             {
+                /*
+                // Dal punto di vista dell'entita dipendente.
+                entity.HasOne(e => e.Course)
+                .WithMany(e => e.Lessons);
+                */
+
                 #region Mapping generato automaticamente dal tool di reverse engineering
                 /*
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -125,7 +136,6 @@ namespace MyCourse.Models.Entities
                     .HasForeignKey(d => d.CourseId);
                 */
                 #endregion
-
             });
         }
     }
