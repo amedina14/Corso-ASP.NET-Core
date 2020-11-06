@@ -79,11 +79,27 @@ namespace MyCourse.Models.Entities
 
                 // Indica a che tabella è collegata l'entita (mapping)
                 entity.ToTable("Courses"); //Superfluo se la tabella si chiama come la proprietà che espone il DbSet.
-
                 // Rappresentare la PK
                 entity.HasKey(course => course.Id); //Superfluo se la proprieta si chiama Id, come il campo, o CoursesId. (nome della classe entita + suffisso)
                 // PK composte.
                 //entity.HasKey(course => new { course.Id, course.Author });
+
+                // Mapping per gli Owned Types
+                entity.OwnsOne(course => course.CurrentPrice, builder => {
+                    builder.Property(money => money.Currency)
+                    .HasConversion<string>()
+                    // Codice sottostante superfluo perchè le nostre colonne seguono già la convenzione dei nomi
+                    .HasColumnName("CurrentPrice_Currency");                     
+                    builder.Property(money => money.Amount).HasColumnName("CurrentPrice_Amount");
+                });
+
+                entity.OwnsOne(course => course.FullPrice, builder => {
+                    builder.Property(money => money.Currency).HasConversion<string>();
+                });
+
+                // Mapping per le relazioni
+                
+
 
             });
 
