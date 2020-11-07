@@ -9,9 +9,9 @@ namespace MyCourse.Models.ViewModels
 {
     public class CourseDetailViewModel : CourseViewModel{
         public string Description { get; set; }
-        public List<CourseLessonViewModel> Lezioni { get; set; }
+        public List<CourseLessonViewModel> Lessons { get; set; }
         public TimeSpan TotalCourseDuration { 
-            get => TimeSpan.FromSeconds(Lezioni?.Sum(l => l.Duration.TotalSeconds) ?? 0);
+            get => TimeSpan.FromSeconds(Lessons?.Sum(l => l.Duration.TotalSeconds) ?? 0);
         }
 
         public static new CourseDetailViewModel FromDataRow(DataRow courseRow)
@@ -32,7 +32,7 @@ namespace MyCourse.Models.ViewModels
                     Convert.ToDecimal(courseRow["CurrentPrice_Amount"])
                 ),
                 Id = Convert.ToInt32(courseRow["Id"]),
-                Lezioni = new List<CourseLessonViewModel>()
+                Lessons = new List<CourseLessonViewModel>()
             };
             
             return courseDetailViewModel;
