@@ -7,10 +7,7 @@ namespace MyCourse.Models.Infrastructure
 {
     public partial class MyCourseDbContext : DbContext
     {
-        public MyCourseDbContext()
-        {
-        }
-
+        
         public MyCourseDbContext(DbContextOptions<MyCourseDbContext> options)
             : base(options)
         {
@@ -19,14 +16,16 @@ namespace MyCourse.Models.Infrastructure
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<Lesson> Lessons { get; set; }
 
+        /*
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlite("Data Source=Data/MyCourse.db");
             }
         }
+        */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -83,9 +82,11 @@ namespace MyCourse.Models.Infrastructure
                 // Indica a che tabella è collegata l'entita (mapping)
                 //Superfluo se la tabella si chiama come la proprietà che espone il DbSet.
                 entity.ToTable("Courses");
+
                 // Rappresentare la PK
                 //Superfluo se la proprieta si chiama Id, come il campo, o CoursesId. (nome della classe entita + suffisso)
                 entity.HasKey(course => course.Id);
+                
                 // PK composte.
                 //entity.HasKey(course => new { course.Id, course.Author });
 
