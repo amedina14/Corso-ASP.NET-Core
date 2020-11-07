@@ -54,7 +54,12 @@ namespace MyCourse.Models.Services.Application
                     Duration = lesson.Duration
                 }).ToList()
             })
-            .SingleAsync();
+            /*            
+            .FirstOrDefaultAsync() // return primo element o il valore default della proprieta/elemento 
+            .SingleOrDefaultAsync() // return primo elemento o il valore default della proprieta/elemento, se elemento > 1, exception.
+            .FirstAsync() // ritorna primo elemento lista, se elemento > 1, exception, se il valore della proprieta/elemento è default, exception.
+            */
+            .SingleAsync(); // ritorna primo elemento, no ripetuto, no default.
 
             return viewModel;
             // throw new System.NotImplementedException();
