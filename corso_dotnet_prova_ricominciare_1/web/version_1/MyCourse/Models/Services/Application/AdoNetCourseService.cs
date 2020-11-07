@@ -62,7 +62,7 @@ namespace MyCourse.Models.Services.Application{
             var lessonsDataTable = dataSet.Tables[1];
             foreach(DataRow lessonRow in lessonsDataTable.Rows){
                 CourseLessonViewModel lessonViewModel = CourseLessonViewModel.FromDataRow(lessonRow);
-                courseDetailViewModel.Lezioni.Add(lessonViewModel);
+                courseDetailViewModel.Lessons.Add(lessonViewModel);
             }
 
             return courseDetailViewModel;
