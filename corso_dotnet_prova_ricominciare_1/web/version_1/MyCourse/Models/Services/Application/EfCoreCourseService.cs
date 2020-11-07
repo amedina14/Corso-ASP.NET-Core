@@ -35,9 +35,28 @@ namespace MyCourse.Models.Services.Application
             // throw new System.NotImplementedException();
         }
 
-        public Task<CourseDetailViewModel> GetCourseAsync(int id)
+        public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
-            throw new System.NotImplementedException();
-        }
-    }
+            CourseDetailViewModel viewModel = await dbContext.Courses
+            .Where(course => course.Id == id)
+            .Select(course => new CourseDetailViewModel{
+                Id = course.Id,
+                Title = course.Title,
+                Description = course.Description,
+                Author = course.Author,
+                ImagePath = course.ImagePath,
+                Rating = course.Rating,
+                CurrentPrice = course.CurrentPrice,
+                FullPrice = course.FullPrice,
+                Lessons = course.Lessons.Select(lesson => new CourseLessonViewModel {
+                    Id = lesson.Id,
+                    TitleLesson = lesson.Title,
+                    Duration = lesson.Duration
+                }).ToList()
+            })
+            .SingleAsync();
+
+            return viewModel;
+            // throw new System.NotImplementedException();
+        }    }
 }
