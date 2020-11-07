@@ -73,3 +73,18 @@ IEnumerable<int> pesoMeleVerdi = apples
                         .Select(apple => apple.weigth);
 int totalWeight = pesoMeleVerdi.Sum();
 Console.WriteLine("Peso mele verdi: "+totalWeight);
+
+// ESEMPIO #3
+//Dato un array di 6 numeri interi
+var numbers = new int[] { 1, 2, 3, 4, 5, 6 }; 
+ 
+//Vogliamo ottenere l'elenco dei soli numeri pari
+//La lambda che forniamo viene chiamata per ciascuno dei numeri in elenco
+//E restituirà true se il resto della divisione per 2 è 0
+var evenNumbers = numbers.Where(number => number % 2 == 0);
+ 
+//E li stampiamo con un foreach
+foreach (var evenNumber in evenNumbers)
+{
+    Console.WriteLine(evenNumber);
+}
