@@ -18,9 +18,18 @@ namespace MyCourse.Models.Services.Application
         public async Task<List<CourseViewModel>> GetCoursesAsync()
         {
             // Proiezione: a fronte di un entita course, ottenere istanze del CourseViewModel (select)
-            List<CourseViewModel> courses = await dbContext.Courses.Select(course => 
+            /*
+                IQueryable:
+                Crea l'albero di espressioni per aiutare il provider LINQ sqlite a tradurre in SQL.
+                Interroga al DB prima di ottenere i risultati da esso.
+            */
+            IQueryable<CourseViewModel> queryLinq = dbContext.Courses.Select(course => 
             new CourseViewModel 
             {
+                /*
+                    Se incapsuliamo le propieta in un metodo (FromEntity()), la query sarà inefficienti,
+                    Perchè prenderà tutti i campi e non riuscirà ad entrare al metodo.
+                */
                 Id = course.Id,
                 Title = course.Title,
                 ImagePath = course.ImagePath,
@@ -28,8 +37,10 @@ namespace MyCourse.Models.Services.Application
                 Rating = course.Rating,
                 CurrentPrice = course.CurrentPrice,
                 FullPrice = course.FullPrice
-            })
-            .ToListAsync();
+            });
+
+            // Deferred excecution - Esecuzione differita
+            List<CourseViewModel> courses = await queryLinq.ToListAsync(); //Qui viene inviata la query al database, quando manifestiamo l'intenzione di voler leggere i risultati
 
             return courses;
             // throw new System.NotImplementedException();
@@ -38,6 +49,12 @@ namespace MyCourse.Models.Services.Application
         public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             CourseDetailViewModel viewModel = await dbContext.Courses
+            /*
+                Eager loading:
+                La query non legge le lezioni del corso dal metodo, quindi
+                si interrogano le lezioni a parte con un altro method extension.
+                .Include(course => course.Lessons)
+            */
             .Where(course => course.Id == id)
             .Select(course => new CourseDetailViewModel{
                 Id = course.Id,
