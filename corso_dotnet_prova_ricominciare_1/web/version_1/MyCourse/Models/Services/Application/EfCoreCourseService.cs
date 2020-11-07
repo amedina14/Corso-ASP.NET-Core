@@ -23,7 +23,9 @@ namespace MyCourse.Models.Services.Application
                 Crea l'albero di espressioni per aiutare il provider LINQ sqlite a tradurre in SQL.
                 Interroga al DB prima di ottenere i risultati da esso.
             */
-            IQueryable<CourseViewModel> queryLinq = dbContext.Courses.Select(course => 
+            IQueryable<CourseViewModel> queryLinq = dbContext.Courses
+            .AsNoTracking() // Toglie il tracking migliorando prestazioni. Solo in lettura.
+            .Select(course => 
             new CourseViewModel 
             {
                 /*
@@ -49,6 +51,7 @@ namespace MyCourse.Models.Services.Application
         public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             CourseDetailViewModel viewModel = await dbContext.Courses
+            .AsNoTracking() // Toglie il tracking migliorando prestazioni. Solo in lettura.
             /*
                 Eager loading:
                 La query non legge le lezioni del corso dal metodo, quindi
