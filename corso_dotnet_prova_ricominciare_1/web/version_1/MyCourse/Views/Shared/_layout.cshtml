@@ -17,6 +17,10 @@
             integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
             crossorigin="anonymous" />
         <script src="https://kit.fontawesome.com/5caf466a62.js" crossorigin="anonymous"></script>
+        <!--
+        <link rel="stylesheet" href=""/>
+            <script src="https://kit.fontawesome.com/5caf466a62.js" crossorigin="anonymous"></script>
+        -->
     </environment>
     <link rel="stylesheet" href="~/style.css" />
 </head>
@@ -54,12 +58,13 @@
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <environment include="Development">
-        <script src="~/jquery/jquery-3.5.1.min.js"></script>
+        <script src="~/jquery/jquery-3.5.1.slim.min.js"></script>
         <script src="~/jquery/popper.min.js"></script>
-        <script src="~/bootstrap/js/bootstrap.min.js"
-            integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
-            crossorigin="anonymous"></script>
+        <script src="~/bootstrap/js/bootstrap.min.js"></script>
     </environment>
+    <!-- 
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    -->
 
     <!--<environment exclude="Development">--> <!-- Development -->
     <environment exclude="Development">
