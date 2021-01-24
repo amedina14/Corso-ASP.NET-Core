@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyCourse.Models.Infrastructure;
 using MyCourse.Models.Services.Application;
@@ -16,6 +17,13 @@ namespace MyCourse
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        // Crea servizio IConfiguration
+        public Startup(IConfiguration configuration){
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -31,8 +39,9 @@ namespace MyCourse
             // services.AddDbContext<MyCourseDbContext>();
             // Aumenta il numero di richieste a disposizione in un minor tempo.
             services.AddDbContextPool<MyCourseDbContext>(optionsBuilder => {
-                #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlite("Data Source=Data/MyCourse.db");
+                // connectionString ottiene il database dalle configurazioni tramite l'uso del servizio 'Configuration'
+                string connectionString = Configuration.GetSection("ConnectionStrings").GetValue<string>("Default");
+                optionsBuilder.UseSqlite(connectionString);
             });
         }
 
