@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
 using MyCourse.Models.Services.Application;
 
 namespace MyCourse.Models.Services.Infrastructure{
 
     public class SqliteDatabaseAccessor : IDatabaseAccessor{
+
+        public IConfiguration Configuration { get; }
+
+        public SqliteDatabaseAccessor(IConfiguration configuration){
+            Configuration = configuration;
+        }
 
         public async Task<DataSet> QueryAsync(FormattableString formattableQuery){
 
@@ -34,8 +41,14 @@ namespace MyCourse.Models.Services.Infrastructure{
             /* 
                 Il blocco using serve a distruggere gli oggetti correttamente (come la connessione),
                 anche quando si verifica un'eccezione, laddove si implementi una classe IDisposable.
+
+                Collegamento al db (valori di configurazione, (appSettings)) tramite il servizio IConfiguration.
+                string c = Config.GetSection("A").GetSection("B").GetValue<string>("C");
+                string c = Config.GetValue<string>("A:B:C");
+                string c = Config.["A:B:C"]; // Solo se c è stringa.
             */
-            using(var conn = new SqliteConnection("Data Source=Data/MyCourse.db"))
+            string connectionString = Configuration.GetConnectionString("Default");
+            using(var conn = new SqliteConnection(connectionString)) //"Data Source=Data/MyCourse.db"
             {
                 await conn.OpenAsync();
                 using(var cmd = new SqliteCommand(query, conn))
