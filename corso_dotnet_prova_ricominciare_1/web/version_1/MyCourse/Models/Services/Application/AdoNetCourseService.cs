@@ -6,15 +6,21 @@ using MyCourse.Models.ValueTypes;
 using MyCourse.Models.ViewModels;
 using MyCourse.Models.Services.Infrastructure;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using MyCourse.Models.Options;
 
-namespace MyCourse.Models.Services.Application{
-    public class AdoNetCourseService : ICourseService{
+namespace MyCourse.Models.Services.Application
+{
+    public class AdoNetCourseService : ICourseService
+    {
 
         // Implementando D.I del servizio infrastructure sul servizio AdoNetCourseService.
         public readonly IDatabaseAccessor db;
+        private readonly IOptionsMonitor<CoursesOptions> coursesOptions;
 
-        public AdoNetCourseService(IDatabaseAccessor db)
+        public AdoNetCourseService(IDatabaseAccessor db, IOptionsMonitor<CoursesOptions> coursesOptions)
         {
+            this.coursesOptions = coursesOptions;
             this.db = db;
         }
 
@@ -26,11 +32,12 @@ namespace MyCourse.Models.Services.Application{
 
             // Ottiene il registro del corso [0]
             var dataTable = dataSet.Tables[0];
-            
+
             // Lista dei corsi dove aggiungerli
             var courseList = new List<CourseViewModel>();
             // Percorriamo tutte le rows del corso
-            foreach(DataRow courseRow in dataTable.Rows){
+            foreach (DataRow courseRow in dataTable.Rows)
+            {
                 // Logica di mapping inserita in FromDataRow(courseRow)
                 CourseViewModel course = CourseViewModel.FromDataRow(courseRow);
                 courseList.Add(course);
@@ -49,10 +56,11 @@ namespace MyCourse.Models.Services.Application{
 
             // Course
             var courseTable = dataSet.Tables[0];
-            if(courseTable.Rows.Count != 1){
+            if (courseTable.Rows.Count != 1)
+            {
                 throw new InvalidOperationException($"Did not return exactly 1 row for Course {id}");
             }
-            
+
             // Prende la riga del corso
             var courseRow = courseTable.Rows[0];
             // crea l'oggetto principale della pagina: Dettaglio corso.
@@ -60,7 +68,8 @@ namespace MyCourse.Models.Services.Application{
 
             // Course Lessons
             var lessonsDataTable = dataSet.Tables[1];
-            foreach(DataRow lessonRow in lessonsDataTable.Rows){
+            foreach (DataRow lessonRow in lessonsDataTable.Rows)
+            {
                 CourseLessonViewModel lessonViewModel = CourseLessonViewModel.FromDataRow(lessonRow);
                 courseDetailViewModel.Lessons.Add(lessonViewModel);
             }
