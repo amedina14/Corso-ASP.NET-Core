@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyCourse.Models.Infrastructure;
+using MyCourse.Models.Options;
 using MyCourse.Models.Services.Application;
 using MyCourse.Models.Services.Infrastructure;
 
@@ -31,18 +32,22 @@ namespace MyCourse
             services.AddMvc(); // .SetCompatibilityVersion(CompatibilityVersion.Version_2_2); using Microsoft.AspNetCore.Mvc; //
 
             // Quando si registra un servizio si indicano interfaccia e implementazione concreta (servizio).
-            // services.AddTransient<ICourseService, AdoNetCourseService>(); // Sostituiamo CourseService
-            services.AddTransient<ICourseService, EfCoreCourseService>(); // Sostituiamo CourseService
+            services.AddTransient<ICourseService, AdoNetCourseService>(); // Sostituiamo CourseService
+            //services.AddTransient<ICourseService, EfCoreCourseService>(); // Sostituiamo CourseService
             services.AddTransient<IDatabaseAccessor, SqliteDatabaseAccessor>();
 
             // services.AddScoped<MyCourseDbContext>();
             // services.AddDbContext<MyCourseDbContext>();
             // Aumenta il numero di richieste a disposizione in un minor tempo.
             services.AddDbContextPool<MyCourseDbContext>(optionsBuilder => {
-                // connectionString ottiene il database dalle configurazioni tramite l'uso del servizio 'Configuration'
+                // connectionString ottiene il database dalle configurazioni tramite l'uso del servizio 'IConfiguration'
                 string connectionString = Configuration.GetSection("ConnectionStrings").GetValue<string>("Default");
                 optionsBuilder.UseSqlite(connectionString);
             });
+
+            // Options: Configurazione fortemente tipizzata
+            services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
+            services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
