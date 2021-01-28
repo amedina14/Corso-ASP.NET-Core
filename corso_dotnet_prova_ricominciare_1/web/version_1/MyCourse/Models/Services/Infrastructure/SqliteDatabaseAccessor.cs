@@ -4,16 +4,27 @@ using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using MyCourse.Models.Options;
 using MyCourse.Models.Services.Application;
 
 namespace MyCourse.Models.Services.Infrastructure{
 
     public class SqliteDatabaseAccessor : IDatabaseAccessor{
 
+        /*
         public IConfiguration Configuration { get; }
 
         public SqliteDatabaseAccessor(IConfiguration configuration){
             Configuration = configuration;
+        }
+        */
+
+        private readonly IOptionsMonitor<ConnectionStringsOptions> connectionStringOptions; 
+
+        // Consumare la configurazione fortemente tipizzata.
+        public SqliteDatabaseAccessor(IOptionsMonitor<ConnectionStringsOptions> connectionStringOptions){
+            this.connectionStringOptions = connectionStringOptions;
         }
 
         public async Task<DataSet> QueryAsync(FormattableString formattableQuery){
@@ -47,7 +58,7 @@ namespace MyCourse.Models.Services.Infrastructure{
                 string c = Config.GetValue<string>("A:B:C");
                 string c = Config.["A:B:C"]; // Solo se c è stringa.
             */
-            string connectionString = Configuration.GetConnectionString("Default");
+            string connectionString = connectionStringOptions.CurrentValue.Default; //Configuration.GetConnectionString("Default");
             using(var conn = new SqliteConnection(connectionString)) //"Data Source=Data/MyCourse.db"
             {
                 await conn.OpenAsync();
