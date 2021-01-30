@@ -4,6 +4,7 @@ using System.Data;
 using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MyCourse.Models.Options;
 using MyCourse.Models.Services.Application;
@@ -11,6 +12,7 @@ using MyCourse.Models.Services.Application;
 namespace MyCourse.Models.Services.Infrastructure{
 
     public class SqliteDatabaseAccessor : IDatabaseAccessor{
+        private readonly ILogger<SqliteDatabaseAccessor> logger;
 
         /*
         public IConfiguration Configuration { get; }
@@ -23,12 +25,15 @@ namespace MyCourse.Models.Services.Infrastructure{
         private readonly IOptionsMonitor<ConnectionStringsOptions> connectionStringOptions; 
 
         // Consumare la configurazione fortemente tipizzata.
-        public SqliteDatabaseAccessor(IOptionsMonitor<ConnectionStringsOptions> connectionStringOptions){
+        public SqliteDatabaseAccessor(ILogger<SqliteDatabaseAccessor> logger, IOptionsMonitor<ConnectionStringsOptions> connectionStringOptions){
+            this.logger = logger;
             this.connectionStringOptions = connectionStringOptions;
         }
 
         public async Task<DataSet> QueryAsync(FormattableString formattableQuery){
 
+            // configurazione del servizio di logging, prender i prarametri: formato e argomenti 
+            logger.LogInformation(formattableQuery.Format, formattableQuery.GetArguments());
             // prevenire Sql Injection
             /*
                 1. Si prendono gli argomenti INTERPOLATI della query.
