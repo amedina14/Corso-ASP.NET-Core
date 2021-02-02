@@ -33,8 +33,9 @@ namespace MyCourse
 
             // Quando si registra un servizio si indicano interfaccia e implementazione concreta (servizio).
             services.AddTransient<ICourseService, AdoNetCourseService>(); // Sostituiamo CourseService
-            //services.AddTransient<ICourseService, EfCoreCourseService>(); // Sostituiamo CourseService
-            services.AddTransient<IDatabaseAccessor, SqliteDatabaseAccessor>();
+            //services.AddTransient<ICourseService, EfCoreCourseService>(); // Sostituiamo AdoNetCourseService
+            services.AddTransient<IDatabaseAccessor, SqliteDatabaseAccessor>(); // Resgistriamo il servizio infrastrutturale
+            services.AddTransient<ICachedCourseService, MemoryCacheCourseService>(); // Registrando il servizio di caching
 
             // services.AddScoped<MyCourseDbContext>();
             // services.AddDbContext<MyCourseDbContext>();
@@ -48,6 +49,11 @@ namespace MyCourse
             // Options: Configurazione fortemente tipizzata
             services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
             services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
+            services.Configure<TempoDiCachingOptions>(Configuration.GetSection("TempoDiCaching")); 
+            /* 
+                Registrando la variabile di config 'TempoDiCaching' tramite il servizio di configurazione
+                IOptionsMonitor<> per passare i secondi al servizio di caching.
+            */
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
