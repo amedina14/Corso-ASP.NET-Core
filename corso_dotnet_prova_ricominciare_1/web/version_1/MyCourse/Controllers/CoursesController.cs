@@ -12,7 +12,13 @@ namespace MyCourse.Controllers
         // Debolmente accopiato: DI
         private readonly ICourseService corsoServizio;
 
-        public CoursesController(ICourseService corsoServizio){
+        /*
+            Per la lettura dei corsi dai molti utenti, utilizzo come servizio ICachedCourseService
+            anzichè il servizio applicativo diretto ICourseService, il quale invia una nuova query 
+            al DB ogni qualvolta un utente richiede l'elenco o il dettaglio e ciò diminuirebbe le 
+            prestazioni dell'applicazioni aumentando i consumi.
+        */
+        public CoursesController(ICachedCourseService corsoServizio){ //ICourseService corsoServizio
             this.corsoServizio = corsoServizio;
         }
 
