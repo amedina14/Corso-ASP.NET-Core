@@ -66,6 +66,8 @@ namespace MyCourse
                     // inserisce la data aggiornata nel file.
                     File.WriteAllText(filePath, DateTime.Now.ToString());
                 });
+            } else {
+                app.UseExceptionHandler("/Error");
             }
 
             app.UseStaticFiles();
