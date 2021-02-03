@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MyCourse.Models.Infrastructure;
@@ -49,11 +50,12 @@ namespace MyCourse
             // Options: Configurazione fortemente tipizzata
             services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
             services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
-            services.Configure<TempoDiCachingOptions>(Configuration.GetSection("TempoDiCaching")); 
             /* 
                 Registrando la variabile di config 'TempoDiCaching' tramite il servizio di configurazione
                 IOptionsMonitor<> per passare i secondi al servizio di caching.
             */
+            services.Configure<TempoDiCachingOptions>(Configuration.GetSection("TempoDiCaching"));
+            services.Configure<MemoryCacheOptions>(Configuration.GetSection("MemoryCache"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
